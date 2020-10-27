@@ -40,9 +40,9 @@ class UpdateService {
         .collection("tblDoktor")
         .document(doktor.reference.documentID)
         .updateData({
-      'ad': doktor.adi,
-      'sifre': doktor.sifre.toString(),
-      'soyad': doktor.soyadi
+      'ad': doktor.name,
+      'sifre': doktor.password.toString(),
+      'soyad': doktor.lastName
     });
     return "Güncelleme gerçekleştirildi";
   }
@@ -55,7 +55,7 @@ class UpdateService {
       Firestore.instance
           .collection("tblDoktor")
           .document(doktor.reference.documentID)
-          .updateData({'favoriSayaci': doktor.favoriSayaci + 1});
+          .updateData({'favoriSayaci': doktor.favCounter + 1});
     });
 
     return "Güncelleme gerçekleştirildi";
@@ -69,7 +69,7 @@ class UpdateService {
       Firestore.instance
           .collection("tblDoktor")
           .document(doktor.reference.documentID)
-          .updateData({'favoriSayaci': doktor.favoriSayaci - 1});
+          .updateData({'favoriSayaci': doktor.favCounter - 1});
     });
 
     return "Güncelleme gerçekleştirildi";
@@ -80,13 +80,13 @@ class UpdateService {
     SearchService().searchDoctorById(kimlikNo).then((QuerySnapshot docs) {
       temp = Doctor.fromMap(docs.documents[0].data);
       temp.reference = docs.documents[0].reference;
-      if (temp.randevular.contains(islemTarihi)) {
-        temp.randevular.remove(islemTarihi);
+      if (temp.appointments.contains(islemTarihi)) {
+        temp.appointments.remove(islemTarihi);
 
         Firestore.instance
             .collection("tblDoktor")
             .document(temp.reference.documentID)
-            .updateData({'randevular': temp.randevular});
+            .updateData({'randevular': temp.appointments});
       }
     });
 

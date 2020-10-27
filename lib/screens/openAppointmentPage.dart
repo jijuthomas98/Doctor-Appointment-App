@@ -23,29 +23,29 @@ class OpenAppointment extends StatefulWidget {
 class OpenAppointmentState extends State<OpenAppointment> {
   Admin _admin;
   OpenAppointmentState(this._admin);
-  bool hastaneSecildiMi = false;
-  bool bolumSecildiMi = false;
-  bool doktorSecildiMi = false;
-  bool tarihSecildiMi = false;
+  bool hospitalName = false;
+  bool episode = false;
+  bool doctorSelected = false;
+  bool dateSelected = false;
   bool appointmentControl1;
   bool appointmentControl2;
 
-  double drGoruntu = 0.0;
-  double goruntu = 0.0;
+  double drImage = 0.0;
+  double image = 0.0;
 
-  Hospital hastane = Hospital();
+  Hospital hospital = Hospital();
   Section section = Section();
-  Doctor doktor = Doctor();
-  User kullanici = User();
+  Doctor doctor = Doctor();
+  User user = User();
 
   String textMessage = " ";
 
-  var randevuTarihi;
-  var raisedButtonText = "Tıkla ve Seç";
+  var appointmentDate;
+  var raisedButtonText = "Click and select";
 
-  var saatTarihBirlesim;
+  var dateTimeCombination;
 
-  double goruntuSaat = 0.0;
+  double displayClock = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Doktor Randevusu Aç",
+          "Open Doctor appointment",
           style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
         ),
       ),
@@ -72,55 +72,55 @@ class OpenAppointmentState extends State<OpenAppointment> {
               child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    child: Text("Hastane Seçmek İçin Tıkla"),
+                    child: Text("Click to choose a hospital"),
                     onPressed: () {
-                      bolumSecildiMi = false;
-                      doktorSecildiMi = false;
-                      tarihSecildiMi = false;
+                      episode = false;
+                      doctorSelected = false;
+                      dateSelected = false;
                       hospitalNavigator(BuildHospitalList());
                     },
                   ),
                   SizedBox(height: 13.0),
-                  showSelectedHospital(hastaneSecildiMi),
+                  showSelectedHospital(hospitalName),
                   SizedBox(
                     height: 30.0,
                   ),
                   RaisedButton(
-                    child: Text("Bölüm Seçmek İçin Tıkla"),
+                    child: Text("Click to select section "),
                     onPressed: () {
-                      if (hastaneSecildiMi) {
-                        doktorSecildiMi = false;
-                        drGoruntu = 0.0;
-                        tarihSecildiMi = false;
-                        sectionNavigator(BuildSectionList(hastane));
-                      } else {
-                        alrtHospital(
-                            context, "Hastane seçmeden bölüm seçemezsiniz");
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  _showSelectedSection(bolumSecildiMi),
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  RaisedButton(
-                    child: Text("Doktor Seçmek İçin Tıkla"),
-                    onPressed: () {
-                      if (hastaneSecildiMi && bolumSecildiMi) {
-                        doctorNavigator(BuildDoctorList(section, hastane));
+                      if (hospitalName) {
+                        doctorSelected = false;
+                        drImage = 0.0;
+                        dateSelected = false;
+                        sectionNavigator(BuildSectionList(hospital));
                       } else {
                         alrtHospital(context,
-                            "Hastane ve bölüm seçmeden doktor seçemezsiniz");
+                            "You cant choose department without choosing hospital");
                       }
                     },
                   ),
                   SizedBox(
                     height: 16.0,
                   ),
-                  showSelectedDoctor(doktorSecildiMi),
+                  _showSelectedSection(episode),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  RaisedButton(
+                    child: Text("Click to select doctor"),
+                    onPressed: () {
+                      if (hospitalName && episode) {
+                        doctorNavigator(BuildDoctorList(section, hospital));
+                      } else {
+                        alrtHospital(context,
+                            "You cannot choose a doctor without choosing a hospital and department.");
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  showSelectedDoctor(doctorSelected),
                   SizedBox(
                     height: 25.0,
                   ),
@@ -129,25 +129,25 @@ class OpenAppointmentState extends State<OpenAppointment> {
                     height: 16.0,
                   ),
                   RaisedButton(
-                    child: Text("İşlem Saati Seçmek İçin Tıkla"),
+                    child: Text("Click to Select Transaction Time"),
                     onPressed: () {
-                      if (randevuTarihi != null &&
-                          hastaneSecildiMi &&
-                          bolumSecildiMi &&
-                          doktorSecildiMi) {
+                      if (appointmentDate != null &&
+                          hospitalName &&
+                          episode &&
+                          doctorSelected) {
                         basicNavigator(AppointmentTimesForAdmin(
-                            randevuTarihi.toString(), doktor, _admin));
-                        tarihSecildiMi = true;
+                            appointmentDate.toString(), doctor, _admin));
+                        dateSelected = true;
                       } else {
                         alrtHospital(context,
-                            "Yukarıdaki seçimler tamamlanmadan saat seçimine geçilemez");
+                            "Time selection cannot be started until the above selections are completed");
                       }
                     },
                   ),
                   SizedBox(
                     height: 16.0,
                   ),
-                  showSelectedDate(tarihSecildiMi),
+                  showSelectedDate(dateSelected),
                   SizedBox(
                     height: 16.0,
                   ),
@@ -162,25 +162,25 @@ class OpenAppointmentState extends State<OpenAppointment> {
   }
 
   void hospitalNavigator(dynamic page) async {
-    hastane = await Navigator.push(
+    hospital = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => page));
 
-    if (hastane == null) {
-      hastaneSecildiMi = false;
+    if (hospital == null) {
+      hospitalName = false;
     } else {
-      hastaneSecildiMi = true;
+      hospitalName = true;
     }
   }
 
-  showSelectedHospital(bool secildiMi) {
+  showSelectedHospital(bool selected) {
     String textMessage = " ";
-    if (secildiMi) {
+    if (selected) {
       setState(() {
-        textMessage = this.hastane.hastaneAdi.toString();
+        textMessage = this.hospital.hastaneAdi.toString();
       });
-      goruntu = 1.0;
+      image = 1.0;
     } else {
-      goruntu = 0.0;
+      image = 0.0;
     }
 
     return Container(
@@ -188,11 +188,11 @@ class OpenAppointmentState extends State<OpenAppointment> {
         child: Row(
           children: <Widget>[
             Text(
-              "Seçilen Hastane : ",
+              "Selected Hospital : ",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
             Opacity(
-                opacity: goruntu,
+                opacity: image,
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -208,7 +208,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
   void alrtHospital(BuildContext context, String message) {
     var alertDoctor = AlertDialog(
       title: Text(
-        "Uyarı!",
+        "Warning!",
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       content: Text(message),
@@ -226,22 +226,22 @@ class OpenAppointmentState extends State<OpenAppointment> {
         context, MaterialPageRoute(builder: (context) => page));
 
     if (section == null) {
-      bolumSecildiMi = false;
+      episode = false;
     } else {
-      bolumSecildiMi = true;
+      episode = true;
     }
   }
 
-  _showSelectedSection(bool secildiMi) {
-    double goruntu = 0.0;
+  _showSelectedSection(bool selected) {
+    double image = 0.0;
 
-    if (secildiMi) {
+    if (selected) {
       setState(() {
         textMessage = this.section.bolumAdi.toString();
       });
-      goruntu = 1.0;
+      image = 1.0;
     } else {
-      goruntu = 0.0;
+      image = 0.0;
     }
 
     return Container(
@@ -249,11 +249,11 @@ class OpenAppointmentState extends State<OpenAppointment> {
         child: Row(
           children: <Widget>[
             Text(
-              "Seçilen Bölüm : ",
+              "selected episode : ",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
             Opacity(
-                opacity: goruntu,
+                opacity: image,
                 child: Container(
                     alignment: Alignment.center,
                     child: _buildTextMessage(textMessage)))
@@ -261,7 +261,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
         ));
   }
 
-  _buildTextMessage(String gelenText) {
+  _buildTextMessage(String incomingText) {
     return Text(
       textMessage,
       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -269,25 +269,25 @@ class OpenAppointmentState extends State<OpenAppointment> {
   }
 
   void doctorNavigator(dynamic page) async {
-    doktor = await Navigator.push(
+    doctor = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => page));
 
-    if (doktor == null) {
-      doktorSecildiMi = false;
+    if (doctor == null) {
+      doctorSelected = false;
     } else {
-      doktorSecildiMi = true;
+      doctorSelected = true;
     }
   }
 
-  showSelectedDoctor(bool secildiMih) {
+  showSelectedDoctor(bool selectedH) {
     String textMessage = " ";
-    if (secildiMih) {
+    if (selectedH) {
       setState(() {
-        textMessage = this.doktor.adi.toString() + " " + this.doktor.soyadi;
+        textMessage = this.doctor.name.toString() + " " + this.doctor.lastName;
       });
-      drGoruntu = 1.0;
+      drImage = 1.0;
     } else {
-      drGoruntu = 0.0;
+      drImage = 0.0;
     }
 
     return Container(
@@ -295,11 +295,11 @@ class OpenAppointmentState extends State<OpenAppointment> {
         child: Row(
           children: <Widget>[
             Text(
-              "Seçilen Doktor : ",
+              "Selected Doctor : ",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
             Opacity(
-                opacity: goruntu,
+                opacity: image,
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -319,9 +319,9 @@ class OpenAppointmentState extends State<OpenAppointment> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2021),
     );
-    randevuTarihi = picked;
-    saatTarihBirlesim = null;
-    tarihSecildiMi = false;
+    appointmentDate = picked;
+    dateTimeCombination = null;
+    dateSelected = false;
   }
 
   Widget dateOfAppointment() {
@@ -330,19 +330,19 @@ class OpenAppointmentState extends State<OpenAppointment> {
       child: Row(
         children: <Widget>[
           Text(
-            "İşlem Tarihi: ",
+            "Transaction date: ",
             style: TextStyle(fontSize: 19.0),
           ),
           RaisedButton(
             child: Text(raisedButtonText),
             onPressed: () {
               _selectDate(context).then((result) => setState(() {
-                    if (randevuTarihi == null) {
-                      raisedButtonText = "Tıkla ve Seç";
-                      tarihSecildiMi = false;
+                    if (appointmentDate == null) {
+                      raisedButtonText = "Click and select";
+                      dateSelected = false;
                     } else {
                       raisedButtonText =
-                          randevuTarihi.toString().substring(0, 10);
+                          appointmentDate.toString().substring(0, 10);
                     }
                   }));
             },
@@ -352,15 +352,15 @@ class OpenAppointmentState extends State<OpenAppointment> {
     );
   }
 
-  showSelectedDate(bool tarihSecildiMi) {
+  showSelectedDate(bool dateSelected) {
     String textMessage = " ";
-    if (tarihSecildiMi) {
+    if (dateSelected) {
       setState(() {
-        textMessage = saatTarihBirlesim.toString();
+        textMessage = dateTimeCombination.toString();
       });
-      goruntuSaat = 1.0;
+      displayClock = 1.0;
     } else {
-      goruntuSaat = 0.0;
+      displayClock = 0.0;
     }
 
     return Container(
@@ -368,11 +368,11 @@ class OpenAppointmentState extends State<OpenAppointment> {
         child: Row(
           children: <Widget>[
             Text(
-              "İşlem Tarih ve Saati : ",
+              "Transaction date and time : ",
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
             Opacity(
-                opacity: goruntuSaat,
+                opacity: displayClock,
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -386,7 +386,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
   }
 
   void basicNavigator(dynamic page) async {
-    saatTarihBirlesim = await Navigator.push(
+    dateTimeCombination = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => page));
   }
 
@@ -394,31 +394,31 @@ class OpenAppointmentState extends State<OpenAppointment> {
     var alertAppointment = AlertDialog(
         contentPadding: const EdgeInsets.fromLTRB(5.0, 50.0, 5.0, 50.0),
         title: Text(
-          "İşlem Özeti",
+          "Transaction summery",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         content: Container(
           padding: EdgeInsets.only(bottom: 50.0),
           child: Column(
             children: <Widget>[
-              showSelectedHospital(hastaneSecildiMi),
-              _showSelectedSection(bolumSecildiMi),
-              showSelectedDoctor(doktorSecildiMi),
-              showSelectedDate(tarihSecildiMi),
+              showSelectedHospital(hospitalName),
+              _showSelectedSection(episode),
+              showSelectedDoctor(doctorSelected),
+              showSelectedDate(dateSelected),
               SizedBox(
                 height: 13.0,
               ),
               Container(
                 child: FlatButton(
                   child: Text(
-                    "Tamam",
+                    "OK",
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pop(context, true);
-                    AddService().addDoctorAppointment(doktor);
+                    AddService().addDoctorAppointment(doctor);
                     AddService().closeDoctorAppointment(_admin);
                   },
                 ),
@@ -437,27 +437,27 @@ class OpenAppointmentState extends State<OpenAppointment> {
   _buildDoneButton() {
     return Container(
       child: RaisedButton(
-        child: Text("Tamamla"),
+        child: Text("Complete"),
         onPressed: () {
-          if (hastaneSecildiMi &&
-              bolumSecildiMi &&
-              doktorSecildiMi &&
-              tarihSecildiMi &&
-              saatTarihBirlesim != null) {
+          if (hospitalName &&
+              episode &&
+              doctorSelected &&
+              dateSelected &&
+              dateTimeCombination != null) {
             SearchService()
-                .searchDoctorById(doktor.kimlikNo)
+                .searchDoctorById(doctor.IDNo)
                 .then((QuerySnapshot docs) {
               Doctor temp = Doctor.fromMap(docs.documents[0].data);
-              if (temp.randevular.contains(saatTarihBirlesim)) {
-                doktor.randevular.remove(saatTarihBirlesim);
-                _admin.kapatilanSaatler.remove(saatTarihBirlesim);
+              if (temp.appointments.contains(dateTimeCombination)) {
+                doctor.appointments.remove(dateTimeCombination);
+                _admin.kapatilanSaatler.remove(dateTimeCombination);
                 alrtAppointment(context);
               } else {
-                alrtHospital(context, "Bu seans dolu");
+                alrtHospital(context, "This section is full");
               }
             });
           } else {
-            alrtHospital(context, "Eksik bilgi var");
+            alrtHospital(context, "There is missing information");
           }
         },
       ),

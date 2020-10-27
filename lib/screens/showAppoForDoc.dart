@@ -34,7 +34,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentListForDoctor> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection("tblAktifRandevu")
-          .where('doktorTCKN', isEqualTo: doktor.kimlikNo)
+          .where('doktorTCKN', isEqualTo: doktor.IDNo)
           .where('randevuTarihi',
               isLessThanOrEqualTo: (DateTime.now()
                   .add(Duration(days: 30))
@@ -117,7 +117,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentListForDoctor> {
           ),
           onPressed: () {
             UpdateService()
-                .updateDoctorAppointments(doktor.kimlikNo, rand.randevuTarihi);
+                .updateDoctorAppointments(doktor.IDNo, rand.randevuTarihi);
             DelService().deleteActiveAppointment(rand);
             AddService().addPastAppointment(rand);
             Navigator.pop(context);

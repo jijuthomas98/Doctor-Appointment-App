@@ -57,7 +57,7 @@ class _BuildDoctorListState extends State<BuildDoctorList> {
   _buildListItem(BuildContext context, DocumentSnapshot data) {
     final dr = Doctor.fromSnapshot(data);
     return Padding(
-      key: ValueKey(dr.kimlikNo),
+      key: ValueKey(dr.IDNo),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
@@ -66,11 +66,11 @@ class _BuildDoctorListState extends State<BuildDoctorList> {
         child: ListTile(
           title: Row(
             children: <Widget>[
-              Text(dr.adi),
+              Text(dr.name),
               SizedBox(
                 width: 5.0,
               ),
-              Text(dr.soyadi)
+              Text(dr.lastName)
             ],
           ),
           subtitle: Text(section.bolumAdi),

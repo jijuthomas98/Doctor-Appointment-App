@@ -225,7 +225,7 @@ class DeleteDoctorState extends State {
     String textMessage = " ";
     if (secildiMih) {
       setState(() {
-        textMessage = this.doktor.adi.toString() + " " + this.doktor.soyadi;
+        textMessage = this.doktor.name.toString() + " " + this.doktor.lastName;
       });
       drGoruntu = 1.0;
     } else {

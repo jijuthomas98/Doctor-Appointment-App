@@ -25,15 +25,15 @@ class AddService {
   void saveDoctor(Doctor dr, Section bolumu, Hospital hastanesi) {
     var randevular = [];
     Firestore.instance.collection('tblDoktor').document().setData({
-      'kimlikNo': dr.kimlikNo,
-      'ad': dr.adi,
-      'soyad': dr.soyadi,
-      'sifre': dr.sifre,
+      'kimlikNo': dr.IDNo,
+      'ad': dr.name,
+      'soyad': dr.lastName,
+      'sifre': dr.password,
       'bolumId': bolumu.bolumId,
       'hastaneId': hastanesi.hastaneId,
-      'cinsiyet': dr.cinsiyet,
-      'dogumTarihi': dr.dogumTarihi,
-      'dogumYeri': dr.dogumYeri,
+      'cinsiyet': dr.gender,
+      'dogumTarihi': dr.DOB,
+      'dogumYeri': dr.birthPlace,
       'favoriSayaci': 0,
       'randevular': randevular
     });
@@ -41,11 +41,11 @@ class AddService {
 
   void addActiveAppointment(Doctor dr, User user, String tarih) {
     Firestore.instance.collection('tblAktifRandevu').document().setData({
-      'doktorTCKN': dr.kimlikNo,
+      'doktorTCKN': dr.IDNo,
       'hastaTCKN': user.IDNo,
       'randevuTarihi': tarih,
-      'doktorAdi': dr.adi,
-      'doktorSoyadi': dr.soyadi,
+      'doktorAdi': dr.name,
+      'doktorSoyadi': dr.lastName,
       'hastaAdi': user.name,
       'hastaSoyadi': user.lastName
     });
@@ -78,7 +78,7 @@ class AddService {
     Firestore.instance
         .collection("tblDoktor")
         .document(doktor.reference.documentID)
-        .setData({'randevular': doktor.randevular}, merge: true);
+        .setData({'randevular': doktor.appointments}, merge: true);
   }
 
   closeDoctorAppointment(Admin admin) {

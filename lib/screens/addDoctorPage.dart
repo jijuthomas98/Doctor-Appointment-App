@@ -119,7 +119,7 @@ class AddDoctorState extends State with ValidationMixin {
       validator: validateTCNo,
       keyboardType: TextInputType.number,
       onSaved: (String value) {
-        doktor.kimlikNo = value;
+        doktor.IDNo = value;
       },
     );
   }
@@ -131,7 +131,7 @@ class AddDoctorState extends State with ValidationMixin {
           labelStyle: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
       obscureText: true,
       onSaved: (String value) {
-        doktor.sifre = value;
+        doktor.password = value;
       },
     );
   }
@@ -143,7 +143,7 @@ class AddDoctorState extends State with ValidationMixin {
           labelStyle: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
       validator: validateFirstName,
       onSaved: (String value) {
-        doktor.adi = value;
+        doktor.name = value;
       },
     );
   }
@@ -155,7 +155,7 @@ class AddDoctorState extends State with ValidationMixin {
           labelStyle: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold)),
       validator: validateLastName,
       onSaved: (String value) {
-        doktor.soyadi = value;
+        doktor.lastName = value;
       },
     );
   }
@@ -166,7 +166,7 @@ class AddDoctorState extends State with ValidationMixin {
           labelText: "Doğum Yeri",
           labelStyle: TextStyle(fontWeight: FontWeight.bold)),
       onSaved: (String value) {
-        doktor.dogumYeri = value;
+        doktor.birthPlace = value;
       },
     );
   }
@@ -198,7 +198,7 @@ class AddDoctorState extends State with ValidationMixin {
                   } else {
                     this.selectedGenders = tiklanan;
                   }
-                  doktor.cinsiyet = selectedGenders;
+                  doktor.gender = selectedGenders;
                 });
               },
             ),
@@ -220,8 +220,7 @@ class AddDoctorState extends State with ValidationMixin {
             onPressed: () {
               _selectDate(context).then((result) => setState(() {
                     raisedButtonText = dogumTarihi.toString().substring(0, 10);
-                    doktor.dogumTarihi =
-                        dogumTarihi.toString().substring(0, 10);
+                    doktor.DOB = dogumTarihi.toString().substring(0, 10);
                   }));
             },
           )
@@ -348,7 +347,7 @@ class AddDoctorState extends State with ValidationMixin {
               formKey.currentState.validate()) {
             formKey.currentState.save();
             SearchService()
-                .searchDoctorById(doktor.kimlikNo)
+                .searchDoctorById(doktor.IDNo)
                 .then((QuerySnapshot docs) {
               if (docs.documents.isEmpty) {
                 AddService()

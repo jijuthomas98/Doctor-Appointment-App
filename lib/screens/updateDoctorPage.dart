@@ -298,7 +298,7 @@ class UpdateDoctorState extends State with ValidationMixin {
     String textMessage = " ";
     if (secildiMih) {
       setState(() {
-        textMessage = this.doktor.adi.toString() + " " + this.doktor.soyadi;
+        textMessage = this.doktor.name.toString() + " " + this.doktor.lastName;
       });
       drGoruntu = 1.0;
     } else {
@@ -338,9 +338,9 @@ class UpdateDoctorState extends State with ValidationMixin {
         if (hastaneSecildiMi && bolumSecildiMi && doktorSecildiMi) {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
-            doktor.adi = yeniAd;
-            doktor.soyadi = yeniSoyad;
-            doktor.sifre = yeniSifre;
+            doktor.name = yeniAd;
+            doktor.lastName = yeniSoyad;
+            doktor.password = yeniSifre;
 
             UpdateService().updateDoktor(doktor);
             Navigator.pop(context, true);

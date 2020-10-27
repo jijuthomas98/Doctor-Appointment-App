@@ -1,75 +1,75 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Doctor {
-  String kimlikNo;
-  String adi;
-  String soyadi;
-  String sifre;
+  String IDNo;
+  String name;
+  String lastName;
+  String password;
   int bolumId;
-  int hastaneId;
-  var randevular = [];
-  int favoriSayaci;
-  String dogumTarihi;
-  String cinsiyet;
-  String dogumYeri;
+  int hospitalID;
+  var appointments = [];
+  int favCounter;
+  String DOB;
+  String gender;
+  String birthPlace;
 
   DocumentReference reference;
 
   Doctor(
-      {this.kimlikNo,
-      this.adi,
-      this.soyadi,
-      this.sifre,
+      {this.IDNo,
+      this.name,
+      this.lastName,
+      this.password,
       this.bolumId,
-      this.hastaneId,
-      this.randevular,
-      this.favoriSayaci,
-      this.dogumTarihi,
-      this.cinsiyet,
-      this.dogumYeri});
+      this.hospitalID,
+      this.appointments,
+      this.favCounter,
+      this.DOB,
+      this.gender,
+      this.birthPlace});
 
   Doctor.fromJson(Map<String, dynamic> json) {
-    kimlikNo = json['kimlikNo'];
-    adi = json['ad'];
-    soyadi = json['soyad'];
-    sifre = json['sifre'];
+    IDNo = json['IDNo'];
+    name = json['name'];
+    lastName = json['lastName'];
+    password = json['password'];
     bolumId = json['bolumId'];
-    hastaneId = json['hastaneId'];
-    randevular = List.from(json['randevular']);
-    favoriSayaci = json['favoriSayaci'];
-    dogumTarihi = json['dogumTarihi'];
-    cinsiyet = json['cinsiyet'];
-    dogumYeri = json["dogumYeri"];
+    hospitalID = json['hospitalID'];
+    appointments = List.from(json['appointments']);
+    favCounter = json['favCounter'];
+    DOB = json['DOB'];
+    gender = json['gender'];
+    birthPlace = json["birthPlace"];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['kimlikNo'] = this.kimlikNo;
-    data['ad'] = this.adi;
-    data['soyad'] = this.soyadi;
-    data['sifre'] = this.sifre;
+    data['IDNo'] = this.IDNo;
+    data['name'] = this.name;
+    data['lastName'] = this.lastName;
+    data['password'] = this.password;
     data['bolumId'] = this.bolumId;
-    data['hastaneId'] = this.hastaneId;
-    data['randevular'] = this.randevular;
-    data['favoriSayaci'] = this.favoriSayaci;
-    data['dogumTarihi'] = this.dogumTarihi;
-    data['cinsiyet'] = this.cinsiyet;
-    data['dogumYeri'] = this.dogumYeri;
+    data['hospitalID'] = this.hospitalID;
+    data['appointments'] = this.appointments;
+    data['favCounter'] = this.favCounter;
+    data['DOB'] = this.DOB;
+    data['gender'] = this.gender;
+    data['birthPlace'] = this.birthPlace;
     return data;
   }
 
   Doctor.fromMap(Map<String, dynamic> map, {this.reference})
-      : kimlikNo = map["kimlikNo"],
-        sifre = map["sifre"],
-        adi = map["ad"],
-        soyadi = map["soyad"],
+      : IDNo = map["IDNo"],
+        password = map["password"],
+        name = map["name"],
+        lastName = map["lastName"],
         bolumId = map["bolumId"],
-        hastaneId = map["hastaneId"],
-        randevular = List.from(map["randevular"]),
-        favoriSayaci = map["favoriSayaci"],
-        dogumYeri = map["dogumYeri"],
-        dogumTarihi = map["dogumTarihi"],
-        cinsiyet = map["cinsiyet"];
+        hospitalID = map["hospitalID"],
+        appointments = List.from(map["appointments"]),
+        favCounter = map["favCounter"],
+        birthPlace = map["birthPlace"],
+        DOB = map["DOB"],
+        gender = map["gender"];
 
   Doctor.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);

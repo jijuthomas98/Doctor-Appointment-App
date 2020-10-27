@@ -83,7 +83,7 @@ class SearchService {
   searchDoctorAppointment(Doctor doktor, String tarih) {
     return Firestore.instance
         .collection("tblAktifRandevu")
-        .where('doktorTCKN', isEqualTo: doktor.kimlikNo)
+        .where('doktorTCKN', isEqualTo: doktor.IDNo)
         .where('randevuTarihi', isEqualTo: tarih)
         .getDocuments();
   }

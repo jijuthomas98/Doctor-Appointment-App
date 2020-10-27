@@ -278,7 +278,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
     String textMessage = " ";
     if (secildiMih) {
       setState(() {
-        textMessage = this.doktor.adi.toString() + " " + this.doktor.soyadi;
+        textMessage = this.doktor.name.toString() + " " + this.doktor.lastName;
       });
       drGoruntu = 1.0;
     } else {
@@ -480,9 +480,9 @@ class MakeAppointmentState extends State<MakeAppointment> {
 
   _buildListItemForFav(BuildContext context, DocumentSnapshot data) {
     final doktor = Doctor.fromSnapshot(data);
-    String gonder = (doktor.adi + " " + doktor.soyadi);
+    String gonder = (doktor.name + " " + doktor.lastName);
     return Padding(
-      key: ValueKey(doktor.kimlikNo),
+      key: ValueKey(doktor.IDNo),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
@@ -531,7 +531,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
                   if (control1) {
                     SearchService()
                         .searchActiveAppointmentsWithHastaTCKNAndDoctorTCKN(
-                            kullanici.IDNo, doktor.kimlikNo)
+                            kullanici.IDNo, doktor.IDNo)
                         .then((QuerySnapshot docs) {
                       if (docs.documents.isNotEmpty) {
                         for (var i = 0; i <= docs.documents.length; i++) {
@@ -544,12 +544,12 @@ class MakeAppointmentState extends State<MakeAppointment> {
                             break;
                           } else {
                             alrtAppointment(context);
-                            doktor.randevular.add(saatTarihBirlesim);
+                            doktor.appointments.add(saatTarihBirlesim);
                           }
                         }
                       } else {
                         alrtAppointment(context);
-                        doktor.randevular.add(saatTarihBirlesim);
+                        doktor.appointments.add(saatTarihBirlesim);
                       }
                     });
                   }

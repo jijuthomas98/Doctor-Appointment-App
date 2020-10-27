@@ -24,7 +24,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
   void initState() {
     super.initState();
     SearchService()
-        .searchHospitalById(_doktor.hastaneId)
+        .searchHospitalById(_doktor.hospitalID)
         .then((QuerySnapshot docs) {
       this.hastane = Hospital.fromMap(docs.documents[0].data);
     });
@@ -80,7 +80,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                       ),
                       Container(
                         child: Text(
-                          _doktor.adi,
+                          _doktor.name,
                           style: TextStyle(
                               fontSize: 30.0, fontWeight: FontWeight.bold),
                         ),
@@ -90,7 +90,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                       ),
                       Container(
                         child: Text(
-                          _doktor.soyadi,
+                          _doktor.lastName,
                           style: TextStyle(
                               fontSize: 30.0, fontWeight: FontWeight.bold),
                         ),
@@ -102,7 +102,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                     width: 370.0,
                     height: 0.4,
                   ),
-                  _buildAttributeRow("T.C. Kimlik Numarası", _doktor.kimlikNo),
+                  _buildAttributeRow("T.C. Kimlik Numarası", _doktor.IDNo),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[

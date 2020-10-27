@@ -16,7 +16,7 @@ class DelService {
         .delete();
     Firestore.instance
         .collection("tblAktifRandevu")
-        .where('doktorTCKN', isEqualTo: doktor.kimlikNo)
+        .where('doktorTCKN', isEqualTo: doktor.IDNo)
         .getDocuments()
         .then((QuerySnapshot docs) {
       if (docs.documents.isNotEmpty) {

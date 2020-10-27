@@ -38,7 +38,7 @@ class _AppointmentTimesState extends State<AppointmentTimes> {
           .add((randevuTarihi.toString().substring(0, 10) + item).toString());
     }
     for (var i = 0; i < birlesim.length; i++) {
-      if (doktor.randevular.contains(birlesim[i])) {
+      if (doktor.appointments.contains(birlesim[i])) {
         birlesimKontrol.insert(i, false);
       } else {
         birlesimKontrol.insert(i, true);

@@ -192,7 +192,7 @@ class WelcomePageState extends State
         if (tabIndex == 0) {
           user.IDNo = value;
         } else {
-          doctor.kimlikNo = value;
+          doctor.IDNo = value;
         }
       },
     );
@@ -211,7 +211,7 @@ class WelcomePageState extends State
         if (tabIndex == 0) {
           user.password = value;
         } else if (tabIndex == 1) {
-          doctor.sifre = value;
+          doctor.password = value;
         } else {
           admin.password = value;
         }
@@ -283,8 +283,7 @@ class WelcomePageState extends State
                   MaterialPageRoute(builder: (context) => UserHomePage(user)));
             }
           } else if (formKey == doctorFormKey) {
-            initiateSearch(
-                doctor.kimlikNo, doctor.sifre, 1, 'IDNo', 'Password');
+            initiateSearch(doctor.IDNo, doctor.password, 1, 'IDNo', 'Password');
 
             if (VerifyIDNo && confirmPassword) {
               Navigator.push(

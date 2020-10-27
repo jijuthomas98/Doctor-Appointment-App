@@ -78,10 +78,10 @@ class _OnlyUpdatePasswordState extends State<OnlyUpdatePassword> {
         onPressed: () {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
-            if (doktor.sifre != yeniSifre && doktor.sifre == eskiSifre) {
-              doktor.sifre = yeniSifre;
+            if (doktor.password != yeniSifre && doktor.password == eskiSifre) {
+              doktor.password = yeniSifre;
               SearchService()
-                  .searchDoctorById(doktor.kimlikNo)
+                  .searchDoctorById(doktor.IDNo)
                   .then((QuerySnapshot docs) {
                 doktor.reference = docs.documents[0].reference;
                 UpdateService().updateDoktor(doktor);

@@ -283,7 +283,7 @@ class CloseAppointmentState extends State<CloseAppointment> {
     String textMessage = " ";
     if (secildiMih) {
       setState(() {
-        textMessage = this.doktor.adi.toString() + " " + this.doktor.soyadi;
+        textMessage = this.doktor.name.toString() + " " + this.doktor.lastName;
       });
       drGoruntu = 1.0;
     } else {
@@ -449,7 +449,7 @@ class CloseAppointmentState extends State<CloseAppointment> {
                 .then((QuerySnapshot docs) {
               if (docs.documents.isEmpty) {
                 alrtAppointment(context);
-                doktor.randevular.add(saatTarihBirlesim);
+                doktor.appointments.add(saatTarihBirlesim);
                 _admin.kapatilanSaatler.add(saatTarihBirlesim);
               } else {
                 alrtHospital(context, "Bu seans dolu");
