@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/screens/showAppoForDoc.dart';
@@ -8,14 +8,14 @@ import 'package:fast_turtle_v2/screens/updateDoctorPass.dart';
 import 'package:flutter/material.dart';
 
 class DoctorHomePage extends StatefulWidget {
-  final Doktor doktor;
+  final Doctor doktor;
   DoctorHomePage(this.doktor);
   @override
   _DoctorHomePageState createState() => _DoctorHomePageState(doktor);
 }
 
 class _DoctorHomePageState extends State<DoctorHomePage> {
-  Doktor _doktor;
+  Doctor _doktor;
   _DoctorHomePageState(this._doktor);
 
   Hospital hastane;

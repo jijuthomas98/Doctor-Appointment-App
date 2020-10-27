@@ -32,7 +32,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection("tblAktifRandevu")
-          .where('hastaTCKN', isEqualTo: user.kimlikNo)
+          .where('hastaTCKN', isEqualTo: user.IDNo)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -84,7 +84,11 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
             ],
           ),
           subtitle: Text(randevu.randevuTarihi),
-          trailing: Text("İptal Et",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.redAccent),),
+          trailing: Text(
+            "İptal Et",
+            style:
+                TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),
+          ),
           onTap: () {
             alrtRandevuIptalEt(context, randevu);
           },
@@ -119,7 +123,7 @@ class _BuildAppointmentListState extends State<BuildAppointmentList> {
                 .updateDoctorAppointments(rand.doktorTCKN, rand.randevuTarihi);
             DelService().deleteActiveAppointment(rand);
             Navigator.pop(context);
-            Navigator.pop(context,true);
+            Navigator.pop(context, true);
           },
         )
       ],

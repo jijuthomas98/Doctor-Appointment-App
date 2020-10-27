@@ -50,7 +50,7 @@ class _UpdateUserState extends State<UpdateUser> with ValidationMixin {
           labelStyle:
               TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
       onSaved: (String value) {
-        user.sifre = value;
+        user.password = value;
       },
       obscureText: true,
     );
@@ -64,7 +64,7 @@ class _UpdateUserState extends State<UpdateUser> with ValidationMixin {
               TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
       validator: validateFirstName,
       onSaved: (String value) {
-        user.adi = value;
+        user.name = value;
       },
     );
   }
@@ -77,7 +77,7 @@ class _UpdateUserState extends State<UpdateUser> with ValidationMixin {
               TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
       validator: validateLastName,
       onSaved: (String value) {
-        user.soyadi = value;
+        user.lastName = value;
       },
     );
   }
@@ -101,7 +101,7 @@ class _UpdateUserState extends State<UpdateUser> with ValidationMixin {
           if (formKey.currentState.validate()) {
             formKey.currentState.save();
             SearchService()
-                .searchUserById(user.kimlikNo)
+                .searchUserById(user.IDNo)
                 .then((QuerySnapshot docs) {
               user.reference = docs.documents[0].reference;
               UpdateService().updateUser(user);

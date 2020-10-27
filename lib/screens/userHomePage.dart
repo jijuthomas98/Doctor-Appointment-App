@@ -65,7 +65,7 @@ class UserHomePageState extends State {
                           ),
                           Container(
                             child: Text(
-                              kullanici.adi,
+                              kullanici.name,
                               style: TextStyle(
                                   fontSize: 30.0, fontWeight: FontWeight.bold),
                             ),
@@ -75,7 +75,7 @@ class UserHomePageState extends State {
                           ),
                           Container(
                             child: Text(
-                              kullanici.soyadi,
+                              kullanici.lastName,
                               style: TextStyle(
                                   fontSize: 30.0, fontWeight: FontWeight.bold),
                             ),
@@ -88,13 +88,13 @@ class UserHomePageState extends State {
                         height: 0.4,
                       ),
                       _buildAttributeRow(
-                          "T.C. Kimlik Numarası", kullanici.kimlikNo),
+                          "T.C. Kimlik Numarası", kullanici.IDNo),
                       _buildAttributeRow(
-                          "Cinsiyet", kullanici.cinsiyet.toString()),
+                          "Cinsiyet", kullanici.gender.toString()),
                       _buildAttributeRow(
-                          "Doğum Yeri", kullanici.dogumYeri.toString()),
+                          "Doğum Yeri", kullanici.birthPlace.toString()),
                       _buildAttributeRow(
-                          "Doğum Tarihi", kullanici.dogumTarihi.toString()),
+                          "Doğum Tarihi", kullanici.DOB.toString()),
                       SizedBox(
                         height: 30.0,
                       )

@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
 import 'package:fast_turtle_v2/dbHelper/updateData.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:flutter/material.dart';
 
 class OnlyUpdatePassword extends StatefulWidget {
-  final Doktor doktor;
+  final Doctor doktor;
   OnlyUpdatePassword(this.doktor);
   @override
   _OnlyUpdatePasswordState createState() => _OnlyUpdatePasswordState(doktor);
 }
 
 class _OnlyUpdatePasswordState extends State<OnlyUpdatePassword> {
-  Doktor doktor;
+  Doctor doktor;
   _OnlyUpdatePasswordState(this.doktor);
   final formKey = GlobalKey<FormState>();
   String yeniSifre;

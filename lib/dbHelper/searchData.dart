@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/passiveAppoModel.dart';
 
 class SearchService {
@@ -80,7 +80,7 @@ class SearchService {
         .getDocuments();
   }
 
-  searchDoctorAppointment(Doktor doktor, String tarih) {
+  searchDoctorAppointment(Doctor doktor, String tarih) {
     return Firestore.instance
         .collection("tblAktifRandevu")
         .where('doktorTCKN', isEqualTo: doktor.kimlikNo)

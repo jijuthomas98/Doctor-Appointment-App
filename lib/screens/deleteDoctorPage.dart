@@ -1,5 +1,5 @@
 import 'package:fast_turtle_v2/dbHelper/delData.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/screens/showDoctors.dart';
@@ -17,7 +17,7 @@ class DeleteDoctor extends StatefulWidget {
 class DeleteDoctorState extends State {
   Hospital hastane = Hospital();
   Section section = Section();
-  Doktor doktor = Doktor();
+  Doctor doktor = Doctor();
   double goruntu = 0.0;
   double drGoruntu = 0.0;
   bool hastaneSecildiMi = false;

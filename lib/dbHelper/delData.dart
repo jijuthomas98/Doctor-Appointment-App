@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/models/activeAppointmentModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/favListModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
@@ -9,7 +9,7 @@ class DelService {
   ActiveAppointment activeAppointment = ActiveAppointment();
 
   // This method delete a doctor also her/his active appoit
-  deleteDoctorbyTCKN(Doktor doktor) {
+  deleteDoctorbyTCKN(Doctor doktor) {
     Firestore.instance
         .collection("tblDoktor")
         .document(doktor.reference.documentID)

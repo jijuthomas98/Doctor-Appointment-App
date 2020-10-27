@@ -32,7 +32,7 @@ class _BuildUserFavListState extends State<BuildUserFavList> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection("tblFavoriler")
-          .where("hastaTCKN", isEqualTo: _user.kimlikNo)
+          .where("hastaTCKN", isEqualTo: _user.IDNo)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {

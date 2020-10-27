@@ -31,7 +31,7 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance
           .collection("tblRandevuGecmisi")
-          .where('hastaTCKN', isEqualTo: user.kimlikNo)
+          .where('hastaTCKN', isEqualTo: user.IDNo)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -127,7 +127,8 @@ class _AppointmentHistoryState extends State<AppointmentHistory> {
                 Navigator.pop(context, true);
               } else {
                 Navigator.pop(context);
-                alrtHospital(context, "Favori listenizde olan bir doktoru tekrar ekleyemezsiniz.");
+                alrtHospital(context,
+                    "Favori listenizde olan bir doktoru tekrar ekleyemezsiniz.");
               }
             });
           },

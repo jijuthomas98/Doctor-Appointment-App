@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/models/userModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 
 class UpdateService {
@@ -11,9 +11,9 @@ class UpdateService {
         .collection("tblKullanici")
         .document(user.reference.documentID)
         .updateData({
-      'sifre': user.sifre.toString(),
-      'ad': user.adi,
-      'soyad': user.soyadi
+      'sifre': user.password.toString(),
+      'ad': user.name,
+      'soyad': user.lastName
     });
   }
 
@@ -35,7 +35,7 @@ class UpdateService {
   //   return "Güncelleme gerçekleştirildi";
   // }
 
-  String updateDoktor(Doktor doktor) {
+  String updateDoktor(Doctor doktor) {
     Firestore.instance
         .collection("tblDoktor")
         .document(doktor.reference.documentID)
@@ -48,9 +48,9 @@ class UpdateService {
   }
 
   String updateDoktorFavCountPlus(String doktorNo) {
-    Doktor doktor;
+    Doctor doktor;
     SearchService().searchDoctorById(doktorNo).then((QuerySnapshot docs) {
-      doktor = Doktor.fromMap(docs.documents[0].data);
+      doktor = Doctor.fromMap(docs.documents[0].data);
       doktor.reference = docs.documents[0].reference;
       Firestore.instance
           .collection("tblDoktor")
@@ -62,9 +62,9 @@ class UpdateService {
   }
 
   String updateDoktorFavCountMinus(String doktorNo) {
-    Doktor doktor;
+    Doctor doktor;
     SearchService().searchDoctorById(doktorNo).then((QuerySnapshot docs) {
-      doktor = Doktor.fromMap(docs.documents[0].data);
+      doktor = Doctor.fromMap(docs.documents[0].data);
       doktor.reference = docs.documents[0].reference;
       Firestore.instance
           .collection("tblDoktor")
@@ -76,9 +76,9 @@ class UpdateService {
   }
 
   String updateDoctorAppointments(String kimlikNo, String islemTarihi) {
-    Doktor temp;
+    Doctor temp;
     SearchService().searchDoctorById(kimlikNo).then((QuerySnapshot docs) {
-      temp = Doktor.fromMap(docs.documents[0].data);
+      temp = Doctor.fromMap(docs.documents[0].data);
       temp.reference = docs.documents[0].reference;
       if (temp.randevular.contains(islemTarihi)) {
         temp.randevular.remove(islemTarihi);

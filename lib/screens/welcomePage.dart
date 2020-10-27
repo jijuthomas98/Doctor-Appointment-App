@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
 import 'package:fast_turtle_v2/models/adminModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/userModel.dart';
 import 'package:fast_turtle_v2/screens/adminHomePage.dart';
 import 'package:fast_turtle_v2/screens/doctorHomePage.dart';
@@ -20,20 +20,19 @@ class WelcomePage extends StatefulWidget {
 class WelcomePageState extends State
     with SingleTickerProviderStateMixin, ValidationMixin {
   TabController _tabController;
-  final kullaniciFormKey = GlobalKey<FormState>();
-  final doktorFormKey = GlobalKey<FormState>();
+  final userFormKey = GlobalKey<FormState>();
+  final doctorFormKey = GlobalKey<FormState>();
   final adminFormKey = GlobalKey<FormState>();
   User user = User();
-  Doktor doktor = Doktor();
+  Doctor doctor = Doctor();
   Admin admin = Admin();
-  Future<QuerySnapshot> gelenVeri;
+  Future<QuerySnapshot> incomingDate;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    this.gelenVeri =
-        Firestore.instance.collection('tblKullanici').getDocuments();
+    this.incomingDate = Firestore.instance.collection('tblUser').getDocuments();
   }
 
   @override
@@ -41,7 +40,7 @@ class WelcomePageState extends State
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Fast Anadolu Randevu Sistemi",
+          "Doctor Appointment System",
           textDirection: TextDirection.ltr,
         ),
         bottom: TabBar(
@@ -49,11 +48,11 @@ class WelcomePageState extends State
           indicatorColor: Colors.white70,
           tabs: <Widget>[
             Text(
-              "Kullanıcı",
+              "User",
               style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
             ),
             Text(
-              "Docter",
+              "Doctor",
               style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
             ),
             Text(
@@ -70,14 +69,14 @@ class WelcomePageState extends State
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                pagePlanWithForm(kimlikNoField(0, context), sifreField(0),
-                    "Hoşgeldiniz", kullaniciFormKey),
+                pagePlanWithForm(IDNoField(0, context), passwordField(0),
+                    "Welcome", userFormKey),
                 registerButton()
               ])),
-          pagePlanWithForm(kimlikNoField(1, context), sifreField(1),
-              "Doktor Girişi", doktorFormKey),
-          pagePlanWithForm(
-              adminNicknameField(), sifreField(2), "Admin Girişi", adminFormKey)
+          pagePlanWithForm(IDNoField(1, context), passwordField(1),
+              "Doctor Login", doctorFormKey),
+          pagePlanWithForm(adminNicknameField(), passwordField(2),
+              "Admin Login", adminFormKey)
         ],
       ),
     );
@@ -96,7 +95,7 @@ class WelcomePageState extends State
     return Container(
       child: FlatButton(
         child: Text(
-          "Kayıt Ol",
+          "Register",
           style: TextStyle(fontSize: 15.0),
         ),
         textColor: Colors.black,
@@ -181,28 +180,28 @@ class WelcomePageState extends State
         ));
   }
 
-  Widget kimlikNoField(int tabIndex, BuildContext context) {
+  Widget IDNoField(int tabIndex, BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-        labelText: "T.C. Kimlik Numarası:",
+        labelText: "ID number",
         labelStyle: TextStyle(
             fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.grey),
       ),
       onSaved: (String value) {
         if (tabIndex == 0) {
-          user.kimlikNo = value;
+          user.IDNo = value;
         } else {
-          doktor.kimlikNo = value;
+          doctor.kimlikNo = value;
         }
       },
     );
   }
 
-  Widget sifreField(int tabIndex) {
+  Widget passwordField(int tabIndex) {
     return TextFormField(
       decoration: InputDecoration(
-        labelText: "Şifre:",
+        labelText: "Password",
         labelStyle: TextStyle(
             fontSize: 17.0, fontWeight: FontWeight.bold, color: Colors.grey),
       ),
@@ -210,9 +209,9 @@ class WelcomePageState extends State
       obscureText: true,
       onSaved: (String value) {
         if (tabIndex == 0) {
-          user.sifre = value;
+          user.password = value;
         } else if (tabIndex == 1) {
-          doktor.sifre = value;
+          doctor.sifre = value;
         } else {
           admin.password = value;
         }
@@ -222,7 +221,7 @@ class WelcomePageState extends State
 
   Widget adminNicknameField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: "Kullanıcı Adı:"),
+      decoration: InputDecoration(labelText: "User Name :"),
       validator: validateAdmin,
       onSaved: (String value) {
         admin.nickname = value;
@@ -230,15 +229,15 @@ class WelcomePageState extends State
     );
   }
 
-  bool kimlikNoDogrula = false;
-  bool sifreDogrula = false;
+  bool VerifyIDNo = false;
+  bool confirmPassword = false;
   var tempSearchStore = [];
 
   //girilen kimlik numarasına kayıtlı bir kullanıcı olup olmadıpını arayan metot...
-  initiateSearch(girilenId, gelenPassword, int tabIndex, String searchWhere,
+  initiateSearch(enteredID, enteredPassword, int tabIndex, String searchWhere,
       String searchPass) {
     SearchService()
-        .searchById(girilenId, gelenPassword, tabIndex)
+        .searchById(enteredID, enteredPassword, tabIndex)
         .then((QuerySnapshot docs) {
       for (int i = 0; i < docs.documents.length; i++) {
         tempSearchStore.add(docs.documents[i].data);
@@ -246,16 +245,17 @@ class WelcomePageState extends State
         if (tabIndex == 0) {
           user = User.fromMap(docs.documents[i].data);
         } else if (tabIndex == 1) {
-          doktor = Doktor.fromMap(docs.documents[i].data);
+          doctor = Doctor.fromMap(docs.documents[i].data);
         } else if (tabIndex == 2) {
           admin = Admin.fromMap(docs.documents[i].data);
         }
       }
     });
     for (var item in tempSearchStore) {
-      if (item[searchWhere] == girilenId && item[searchPass] == gelenPassword) {
-        kimlikNoDogrula = true;
-        sifreDogrula = true;
+      if (item[searchWhere] == enteredID &&
+          item[searchPass] == enteredPassword) {
+        VerifyIDNo = true;
+        confirmPassword = true;
       }
     }
   }
@@ -265,38 +265,38 @@ class WelcomePageState extends State
       padding: EdgeInsets.only(top: 30.0),
       child: FlatButton(
         child: Text(
-          "Giriş Yap",
+          "Login",
           style: TextStyle(fontSize: 22.0),
         ),
         textColor: Colors.blueAccent,
         splashColor: Colors.cyanAccent,
         onPressed: () {
-          kimlikNoDogrula = false;
-          sifreDogrula = false;
+          VerifyIDNo = false;
+          confirmPassword = false;
           formKey.currentState.validate();
           formKey.currentState.save();
-          if (formKey == kullaniciFormKey) {
-            initiateSearch(user.kimlikNo, user.sifre, 0, 'kimlikNo', 'sifre');
+          if (formKey == userFormKey) {
+            initiateSearch(user.IDNo, user.password, 0, 'IDNo', 'Password');
 
-            if (kimlikNoDogrula && sifreDogrula) {
+            if (VerifyIDNo && confirmPassword) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => UserHomePage(user)));
             }
-          } else if (formKey == doktorFormKey) {
+          } else if (formKey == doctorFormKey) {
             initiateSearch(
-                doktor.kimlikNo, doktor.sifre, 1, 'kimlikNo', 'sifre');
+                doctor.kimlikNo, doctor.sifre, 1, 'IDNo', 'Password');
 
-            if (kimlikNoDogrula && sifreDogrula) {
+            if (VerifyIDNo && confirmPassword) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DoctorHomePage(doktor)));
+                      builder: (context) => DoctorHomePage(doctor)));
             }
           } else if (formKey == adminFormKey) {
             initiateSearch(
                 admin.nickname, admin.password, 2, 'nickname', 'password');
 
-            if (kimlikNoDogrula && sifreDogrula) {
+            if (VerifyIDNo && confirmPassword) {
               Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -1,10 +1,10 @@
 import 'package:fast_turtle_v2/models/adminModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentTimesForAdmin extends StatefulWidget {
   final String randevuTarihi;
-  final Doktor doktor;
+  final Doctor doktor;
   final Admin admin;
   AppointmentTimesForAdmin(this.randevuTarihi, this.doktor, this.admin);
 
@@ -15,7 +15,7 @@ class AppointmentTimesForAdmin extends StatefulWidget {
 
 class _AppointmentTimesForAdminState extends State<AppointmentTimesForAdmin> {
   String randevuTarihi;
-  Doktor doktor;
+  Doctor doktor;
   Admin _admin;
   List<String> birlesim = [];
   List<bool> birlesimKontrol = [];

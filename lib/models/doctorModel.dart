@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Doktor {
+class Doctor {
   String kimlikNo;
   String adi;
   String soyadi;
@@ -15,7 +15,7 @@ class Doktor {
 
   DocumentReference reference;
 
-  Doktor(
+  Doctor(
       {this.kimlikNo,
       this.adi,
       this.soyadi,
@@ -28,7 +28,7 @@ class Doktor {
       this.cinsiyet,
       this.dogumYeri});
 
-  Doktor.fromJson(Map<String, dynamic> json) {
+  Doctor.fromJson(Map<String, dynamic> json) {
     kimlikNo = json['kimlikNo'];
     adi = json['ad'];
     soyadi = json['soyad'];
@@ -58,7 +58,7 @@ class Doktor {
     return data;
   }
 
-  Doktor.fromMap(Map<String, dynamic> map, {this.reference})
+  Doctor.fromMap(Map<String, dynamic> map, {this.reference})
       : kimlikNo = map["kimlikNo"],
         sifre = map["sifre"],
         adi = map["ad"],
@@ -71,6 +71,6 @@ class Doktor {
         dogumTarihi = map["dogumTarihi"],
         cinsiyet = map["cinsiyet"];
 
-  Doktor.fromSnapshot(DocumentSnapshot snapshot)
+  Doctor.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 }

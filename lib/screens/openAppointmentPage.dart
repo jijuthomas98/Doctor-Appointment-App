@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/addData.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
 import 'package:fast_turtle_v2/models/adminModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/models/userModel.dart';
@@ -35,7 +35,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
 
   Hospital hastane = Hospital();
   Section section = Section();
-  Doktor doktor = Doktor();
+  Doctor doktor = Doctor();
   User kullanici = User();
 
   String textMessage = " ";
@@ -447,7 +447,7 @@ class OpenAppointmentState extends State<OpenAppointment> {
             SearchService()
                 .searchDoctorById(doktor.kimlikNo)
                 .then((QuerySnapshot docs) {
-              Doktor temp = Doktor.fromMap(docs.documents[0].data);
+              Doctor temp = Doctor.fromMap(docs.documents[0].data);
               if (temp.randevular.contains(saatTarihBirlesim)) {
                 doktor.randevular.remove(saatTarihBirlesim);
                 _admin.kapatilanSaatler.remove(saatTarihBirlesim);

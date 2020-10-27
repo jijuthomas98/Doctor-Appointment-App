@@ -4,25 +4,25 @@ import 'package:fast_turtle_v2/models/activeAppointmentModel.dart';
 import 'package:fast_turtle_v2/models/passiveAppoModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/models/userModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/adminModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 
 class AddService {
   String saveUser(User user) {
     Firestore.instance.collection('tblKullanici').document().setData({
-      'ad': user.adi,
-      'soyad': user.soyadi,
-      'kimlikNo': user.kimlikNo,
-      'cinsiyet': user.cinsiyet,
-      'dogumTarihi': user.dogumTarihi,
-      'dogumYeri': user.dogumYeri,
-      'sifre': user.sifre
+      'ad': user.name,
+      'soyad': user.lastName,
+      'kimlikNo': user.IDNo,
+      'cinsiyet': user.gender,
+      'dogumTarihi': user.DOB,
+      'dogumYeri': user.birthPlace,
+      'sifre': user.password
     });
     return 'kullanıcı ekleme işlemi Tamamlandı';
   }
 
-  void saveDoctor(Doktor dr, Section bolumu, Hospital hastanesi) {
+  void saveDoctor(Doctor dr, Section bolumu, Hospital hastanesi) {
     var randevular = [];
     Firestore.instance.collection('tblDoktor').document().setData({
       'kimlikNo': dr.kimlikNo,
@@ -34,20 +34,20 @@ class AddService {
       'cinsiyet': dr.cinsiyet,
       'dogumTarihi': dr.dogumTarihi,
       'dogumYeri': dr.dogumYeri,
-      'favoriSayaci' : 0,
-      'randevular' : randevular
+      'favoriSayaci': 0,
+      'randevular': randevular
     });
   }
 
-  void addActiveAppointment(Doktor dr, User user, String tarih) {
+  void addActiveAppointment(Doctor dr, User user, String tarih) {
     Firestore.instance.collection('tblAktifRandevu').document().setData({
       'doktorTCKN': dr.kimlikNo,
-      'hastaTCKN': user.kimlikNo,
+      'hastaTCKN': user.IDNo,
       'randevuTarihi': tarih,
       'doktorAdi': dr.adi,
       'doktorSoyadi': dr.soyadi,
-      'hastaAdi': user.adi,
-      'hastaSoyadi': user.soyadi
+      'hastaAdi': user.name,
+      'hastaSoyadi': user.lastName
     });
   }
 
@@ -74,7 +74,7 @@ class AddService {
     });
   }
 
-  addDoctorAppointment(Doktor doktor) {
+  addDoctorAppointment(Doctor doktor) {
     Firestore.instance
         .collection("tblDoktor")
         .document(doktor.reference.documentID)

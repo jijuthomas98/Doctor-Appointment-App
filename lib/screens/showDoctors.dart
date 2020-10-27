@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _BuildDoctorListState extends State<BuildDoctorList> {
   }
 
   _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final dr = Doktor.fromSnapshot(data);
+    final dr = Doctor.fromSnapshot(data);
     return Padding(
       key: ValueKey(dr.kimlikNo),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

@@ -1,9 +1,9 @@
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentTimes extends StatefulWidget {
   final String randevuTarihi;
-  final Doktor doktor;
+  final Doctor doktor;
   AppointmentTimes(this.randevuTarihi, this.doktor);
 
   @override
@@ -13,7 +13,7 @@ class AppointmentTimes extends StatefulWidget {
 
 class _AppointmentTimesState extends State<AppointmentTimes> {
   String randevuTarihi;
-  Doktor doktor;
+  Doctor doktor;
   List<String> birlesim = [];
   List<bool> birlesimKontrol = [];
   List<String> saatler = [

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/addData.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
 import 'package:fast_turtle_v2/models/activeAppointmentModel.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/models/userModel.dart';
@@ -36,7 +36,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
 
   Hospital hastane = Hospital();
   Section section = Section();
-  Doktor doktor = Doktor();
+  Doctor doktor = Doctor();
   User kullanici = User();
 
   String textMessage = " ";
@@ -72,7 +72,6 @@ class MakeAppointmentState extends State<MakeAppointment> {
                           doktorSecildiMi = false;
                           tarihSecildiMi = false;
                           hospitalNavigator(BuildHospitalList());
-                          
                         },
                       ),
                       SizedBox(height: 13.0),
@@ -83,7 +82,6 @@ class MakeAppointmentState extends State<MakeAppointment> {
                       RaisedButton(
                         child: Text("Bölüm Seçmek İçin Tıkla"),
                         onPressed: () {
-                          
                           if (hastaneSecildiMi) {
                             doktorSecildiMi = false;
                             drGoruntu = 0.0;
@@ -481,7 +479,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
   }
 
   _buildListItemForFav(BuildContext context, DocumentSnapshot data) {
-    final doktor = Doktor.fromSnapshot(data);
+    final doktor = Doctor.fromSnapshot(data);
     String gonder = (doktor.adi + " " + doktor.soyadi);
     return Padding(
       key: ValueKey(doktor.kimlikNo),
@@ -513,7 +511,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
                 .then((QuerySnapshot docs) {
               if (docs.documents.isEmpty) {
                 SearchService()
-                    .searchActiveAppointmentsByHastaTCKN(kullanici.kimlikNo)
+                    .searchActiveAppointmentsByHastaTCKN(kullanici.IDNo)
                     .then((QuerySnapshot docs) {
                   if (docs.documents.isNotEmpty) {
                     for (var i = 0; i < docs.documents.length; i++) {
@@ -533,7 +531,7 @@ class MakeAppointmentState extends State<MakeAppointment> {
                   if (control1) {
                     SearchService()
                         .searchActiveAppointmentsWithHastaTCKNAndDoctorTCKN(
-                            kullanici.kimlikNo, doktor.kimlikNo)
+                            kullanici.IDNo, doktor.kimlikNo)
                         .then((QuerySnapshot docs) {
                       if (docs.documents.isNotEmpty) {
                         for (var i = 0; i <= docs.documents.length; i++) {

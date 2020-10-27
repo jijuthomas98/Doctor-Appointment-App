@@ -1,5 +1,5 @@
 import 'package:fast_turtle_v2/dbHelper/updateData.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/screens/showDoctors.dart';
@@ -17,7 +17,7 @@ class UpdateDoctor extends StatefulWidget {
 
 class UpdateDoctorState extends State with ValidationMixin {
   Hospital hastane = Hospital();
-  Doktor doktor = Doktor();
+  Doctor doktor = Doctor();
   double goruntu = 0.0;
   double drGoruntu = 0.0;
   bool hastaneSecildiMi = false;

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fast_turtle_v2/dbHelper/addData.dart';
 import 'package:fast_turtle_v2/dbHelper/searchData.dart';
-import 'package:fast_turtle_v2/models/doktorModel.dart';
+import 'package:fast_turtle_v2/models/doctorModel.dart';
 import 'package:fast_turtle_v2/models/hospitalModel.dart';
 import 'package:fast_turtle_v2/models/sectionModel.dart';
 import 'package:fast_turtle_v2/screens/showHospitals.dart';
@@ -17,7 +17,7 @@ class AddDoctor extends StatefulWidget {
 }
 
 class AddDoctorState extends State with ValidationMixin {
-  final doktor = Doktor();
+  final doktor = Doctor();
   Hospital hastane = Hospital();
   Section section = Section();
   bool hastaneSecildiMi = false;
@@ -162,7 +162,9 @@ class AddDoctorState extends State with ValidationMixin {
 
   Widget placeofBirthField() {
     return TextFormField(
-      decoration: InputDecoration(labelText: "Doğum Yeri",labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+      decoration: InputDecoration(
+          labelText: "Doğum Yeri",
+          labelStyle: TextStyle(fontWeight: FontWeight.bold)),
       onSaved: (String value) {
         doktor.dogumYeri = value;
       },

@@ -91,7 +91,7 @@ class RegisterPageState extends State with ValidationMixin {
       decoration: InputDecoration(labelText: "T.C. Kimlik Numarası:"),
       validator: validateTCNo,
       onSaved: (String value) {
-        user.kimlikNo = value;
+        user.IDNo = value;
       },
     );
   }
@@ -100,7 +100,7 @@ class RegisterPageState extends State with ValidationMixin {
     return TextFormField(
       decoration: InputDecoration(labelText: "Şifre:"),
       onSaved: (String value) {
-        user.sifre = value;
+        user.password = value;
       },
     );
   }
@@ -110,7 +110,7 @@ class RegisterPageState extends State with ValidationMixin {
       decoration: InputDecoration(labelText: "Ad"),
       validator: validateFirstName,
       onSaved: (String value) {
-        user.adi = value;
+        user.name = value;
       },
     );
   }
@@ -120,7 +120,7 @@ class RegisterPageState extends State with ValidationMixin {
       decoration: InputDecoration(labelText: "Soyad"),
       validator: validateLastName,
       onSaved: (String value) {
-        user.soyadi = value;
+        user.lastName = value;
       },
     );
   }
@@ -129,7 +129,7 @@ class RegisterPageState extends State with ValidationMixin {
     return TextFormField(
       decoration: InputDecoration(labelText: "Doğum Yeri"),
       onSaved: (String value) {
-        user.dogumYeri = value;
+        user.birthPlace = value;
       },
     );
   }
@@ -161,7 +161,7 @@ class RegisterPageState extends State with ValidationMixin {
                   } else {
                     this.selectedGenders = tiklanan;
                   }
-                  user.cinsiyet = selectedGenders;
+                  user.gender = selectedGenders;
                 });
               },
             ),
@@ -183,7 +183,7 @@ class RegisterPageState extends State with ValidationMixin {
             onPressed: () {
               _selectDate(context).then((result) => setState(() {
                     raisedButtonText = dogumTarihi.toString().substring(0, 10);
-                    user.dogumTarihi = dogumTarihi.toString().substring(0, 10);
+                    user.DOB = dogumTarihi.toString().substring(0, 10);
                   }));
             },
           )
