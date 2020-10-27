@@ -53,7 +53,7 @@ class WelcomePageState extends State
               style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
             ),
             Text(
-              "Doktor",
+              "Docter",
               style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
             ),
             Text(
